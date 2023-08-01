@@ -1,3 +1,4 @@
+-- Request 1
 SELECT DISTINCT market
 FROM dim_customer
 WHERE customer = "Atliq Exclusive"
@@ -36,7 +37,7 @@ ORDER BY product_count DESC;
 
 WITH product_2020 AS
 (
-SELECT DISTINCT p.segment,
+SELECT  p.segment,
 COUNT(DISTINCT p.product_code) AS product_count_2020
 FROM 
 dim_product p
@@ -48,7 +49,7 @@ GROUP BY p.segment
 ),
 product_2021 AS
 (
-SELECT DISTINCT p.segment,
+SELECT  p.segment,
 COUNT(DISTINCT p.product_code) AS product_count_2021
 FROM 
 dim_product p
@@ -107,7 +108,7 @@ ON c.customer_code = f.customer_code
 JOIN
 fact_gross_price g
 ON f.product_code = g.product_code
--- AND f.fiscal_year = g.fiscal_year
+AND f.fiscal_year = g.fiscal_year
 WHERE c.customer = "Atliq Exclusive"
 GROUP BY f.date, f.fiscal_year
 ORDER BY year, month
@@ -180,7 +181,7 @@ SELECT
 division,
 product_code,
 total_sold_quantity,
-CONCAT(product,'(',variant,')'),
+CONCAT(product,'(',variant,')') AS product,
 dense_rank() over (partition by division ORDER BY total_sold_quantity DESC) as drnk
 FROM cte1
 )
